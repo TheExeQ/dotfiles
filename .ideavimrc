@@ -1,0 +1,33 @@
+" Relative Line Numbers
+set relativenumber
+
+" Redo
+noremap U <C-R>
+
+" Sync vim clipboard with OS clipboard
+set clipboard^=unnamed,unnamedplus
+
+" Define Handlers
+sethandler <C-A> a:ide
+sethandler <C-C> a:ide
+sethandler <C-D> a:ide
+sethandler <C-F> a:ide
+sethandler <C-K> a:ide
+sethandler <C-S> a:ide
+sethandler <C-V> a:ide
+sethandler <C-X> a:ide
+sethandler <C-Y> a:ide
+sethandler <C-T> a:ide
+
+" Keymaps
+map <Space>s <Action>(SurroundWith)
+map <Space>g <Action>(GotoImplementation)
+map <Space>C <Action>(CommentByBlockComment)
+map <Space>c <Action>(CommentByLineComment)
+map <Space>. <Action>(NextTab)
+map <Space>, <Action>(PreviousTab)
+map <Space>= <Action>(Forward)
+map <Space>- <Action>(Back)
+map <Space>h <Action>(HideAllWindows)
+
+map <Space>0 :source ~/.ideavimrc<CR>
