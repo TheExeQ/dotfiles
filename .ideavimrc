@@ -1,12 +1,6 @@
 " Relative Line Numbers
 set relativenumber
 
-" Redo
-noremap U <C-R>
-
-" Sync vim clipboard with OS clipboard
-set clipboard^=unnamed,unnamedplus
-
 " Define Handlers
 sethandler <C-A> a:ide
 sethandler <C-C> a:ide
@@ -19,9 +13,13 @@ sethandler <C-X> a:ide
 sethandler <C-Y> a:ide
 sethandler <C-T> a:ide
 
-" Keymaps
+" Remaps
+noremap U <C-R>
+
+" Space keymaps
 map <Space>s <Action>(SurroundWith)
 map <Space>g <Action>(GotoImplementation)
+map <Space>f <Action>(ReformatCode)
 map <Space>C <Action>(CommentByBlockComment)
 map <Space>c <Action>(CommentByLineComment)
 map <Space>. <Action>(NextTab)
