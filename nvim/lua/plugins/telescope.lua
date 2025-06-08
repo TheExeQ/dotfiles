@@ -1,4 +1,3 @@
-
 return {
   "nvim-telescope/telescope.nvim",
   tag = "0.1.8",
@@ -24,8 +23,14 @@ return {
 
     -- Keybindings
     vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope: Find Files" })
+    vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Telescope: Old Files" })
     vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope: Live Grep" })
     vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope: Buffers" })
-    vim.keymap.set("n", "<leader>fe", telescope.extensions.file_browser.file_browser, { desc = "Telescope: File Browser" })
+    vim.keymap.set(
+      "n",
+      "<leader>fe",
+      telescope.extensions.file_browser.file_browser,
+      { desc = "Telescope: File Browser" }
+    )
   end,
 }
