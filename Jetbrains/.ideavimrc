@@ -1,6 +1,9 @@
 " Relative Line Numbers
 set relativenumber
 
+" Leader
+let mapleader = " "
+
 " Define Handlers
 sethandler <C-A> a:ide
 sethandler <C-C> a:ide
@@ -11,21 +14,20 @@ sethandler <C-S> a:ide
 sethandler <C-V> a:ide
 sethandler <C-X> a:ide
 sethandler <C-Y> a:ide
-sethandler <C-T> a:ide
 
-" Remaps
-noremap U <C-R>
+" === LSP-like mappings ===
+map <leader>gf <Action>(ReformatCode)
+map K <Action>(QuickJavaDoc)
+map <leader>gd <Action>(GotoDeclaration)
+map <leader>gr <Action>(FindUsages)
+map <leader>ca <Action>(ShowIntentionActions)
 
-" Space keymaps
-map <Space>s <Action>(SurroundWith)
-map <Space>g <Action>(GotoImplementation)
-map <Space>f <Action>(ReformatCode)
-map <Space>C <Action>(CommentByBlockComment)
-map <Space>c <Action>(CommentByLineComment)
-map <Space>. <Action>(NextTab)
-map <Space>, <Action>(PreviousTab)
-map <Space>= <Action>(Forward)
-map <Space>- <Action>(Back)
-map <Space>h <Action>(HideAllWindows)
+" === Telescope-like mappings ===
+map <leader>ff <Action>(GotoFile)
+map <leader>fo <Action>(RecentFiles)
+map <leader>fg <Action>(FindInPath)
+map <leader>fb <Action>(Switcher)
+map <leader>fe <Action>(FileStructurePopup)
 
-map <Space>0 :source ~/.ideavimrc<CR>
+" Reload .ideavimrc
+map <leader>0 :source ~/.ideavimrc<CR>
