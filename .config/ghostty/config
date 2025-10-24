@@ -1,3 +1,4 @@
+term=xterm-256color
 theme=Catppuccin Mocha
 window-width=1920
 window-height=1080
