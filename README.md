@@ -18,7 +18,7 @@ Install Stow:
 1. Clone the repo:
 
    ```bash
-   git clone <your-repo-url> ~/dotfiles
+   git clone https://github.com/TheExeQ/dotfiles ~/dotfiles
    cd ~/dotfiles
    ```
 
