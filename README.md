@@ -1,6 +1,11 @@
 # Dotfiles
 
-This repo is configured with GNU Stow via `bootstrap.sh`.
+This repo manages symlinked dotfiles with GNU Stow.
+
+## Repository layout
+
+- `stow/`: stow packages (for example, `stow/shared`)
+- `install/`: setup scripts (for example, `install/bootstrap.sh`)
 
 ## Prerequisites
 
@@ -25,25 +30,27 @@ Install Stow:
 2. Optional: preview changes without modifying files:
 
    ```bash
-   ./bootstrap.sh --dry-run
+   ./install/bootstrap.sh --dry-run
    ```
 
 3. Apply configuration:
 
    ```bash
-   ./bootstrap.sh
+   ./install/bootstrap.sh
    ```
 
 ## What `bootstrap.sh` does
 
 - Verifies `stow` is installed.
 - Uses your home directory (`$HOME`) as the stow target.
-- Always stows the `shared/` package.
+- Uses `stow/` as the stow package directory.
+- Always stows the `shared` package.
 - Also stows one OS-specific package:
-  - `mac/` on macOS (`Darwin`)
-  - `linux/` on Linux
+  - `mac` on macOS (`Darwin`)
+  - `linux` on Linux
 - If a package directory is missing, it is skipped.
+- Supports `--dry-run` and `--help`.
 
 ## Re-running
 
-You can safely re-run `./bootstrap.sh` after updates to re-apply symlinks.
+You can safely re-run `./install/bootstrap.sh` after updates to re-apply symlinks.
