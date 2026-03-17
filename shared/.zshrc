@@ -39,7 +39,6 @@ autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 # Keybindings
-bindkey '^[[C' autosuggest-accept
 bindkey '^F' autosuggest-accept
 
 # Completion styling
