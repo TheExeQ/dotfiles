@@ -2,19 +2,24 @@
 set -eu
 
 usage() {
-  echo "Usage: $0 [--dry-run]"
+  echo "Usage: $0 [--dry-run] [--undo]"
   echo ""
   echo "Options:"
   echo "  --dry-run   Show what would be done without making changes"
+  echo "  --undo      Unstow managed files instead of stowing them"
   echo "  --help      Show this help message"
 }
 
 DRY_RUN=0
+UNDO=0
 
 for arg in "$@"; do
   case "$arg" in
   --dry-run)
     DRY_RUN=1
+    ;;
+  --undo)
+    UNDO=1
     ;;
   --help | -h)
     usage
@@ -43,11 +48,17 @@ if [ "$DRY_RUN" -eq 1 ]; then
   STOW_FLAGS="-n -v"
 fi
 
+STOW_MODE="stow"
+if [ "$UNDO" -eq 1 ]; then
+  STOW_MODE="unstow"
+  STOW_FLAGS="$STOW_FLAGS -D"
+fi
+
 stow_pkg() {
   pkg=$1
 
   if [ -d "$STOW_DIR/$pkg" ]; then
-    echo "Stowing package: $pkg"
+    echo "${STOW_MODE%ow}owing package: $pkg"
     # shellcheck disable=SC2086
     stow $STOW_FLAGS -d "$STOW_DIR" -t "$TARGET_DIR" "$pkg"
   else
@@ -60,6 +71,7 @@ echo "Repo dir:     $REPO_DIR"
 echo "Stow dir:     $STOW_DIR"
 echo "Target dir:   $TARGET_DIR"
 echo "OS:           $OS"
+echo "Mode:         $STOW_MODE"
 echo "Note: if you see conflicts, remove existing unmanaged files in $TARGET_DIR and rerun."
 
 stow_pkg shared
