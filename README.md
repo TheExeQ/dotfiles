@@ -49,7 +49,7 @@ Install Stow:
   - `mac` on macOS (`Darwin`)
   - `linux` on Linux
 - If a package directory is missing, it is skipped.
-- Supports `--dry-run` and `--help`.
+- Supports `--dry-run`, `--undo` and `--help`.
 
 ## Re-running
 
