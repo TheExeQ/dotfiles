@@ -165,6 +165,7 @@ alt-enter = 'exec-and-forget open -a /Applications/Ghostty.app/'
 alt-b = 'exec-and-forget open -a /Applications/Zen.app/'
 alt-d = 'exec-and-forget open -a /Applications/Discord.app/'
 alt-s = 'exec-and-forget open -a /Applications/Spotify.app/'
+alt-o = 'exec-and-forget open -a /Applications/Obsidian.app/'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
