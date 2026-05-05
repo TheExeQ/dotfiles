@@ -1,6 +1,8 @@
 # ~/.zshrc
 # Based of dreamsofautonomy/zensh
 
+[[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
+
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
   # If you're using macos, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -43,11 +45,6 @@ bindkey '^F' autosuggest-accept
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
-# Aliases
-alias vim='nvim'
-alias c='clear'
-alias python='python3'
 
 # Shell integrations
 eval "$(starship init zsh)"
