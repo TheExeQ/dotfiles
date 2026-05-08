@@ -1,0 +1,12 @@
+[user]
+	email = samuel.ryberg@gmail.com
+	name = Samuel Ryberg
+	signingkey = /Users/samuelryberg/.ssh/github.pub
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
