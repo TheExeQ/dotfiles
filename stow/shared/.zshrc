@@ -2,6 +2,7 @@
 # Based of dreamsofautonomy/zensh
 
 export PATH="/Users/$USER/.local/bin:$PATH"
+export SSH_AUTH_SOCK="$HOME/.ssh/proton-pass-agent.sock"
 
 [[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
 

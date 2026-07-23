@@ -1,7 +1,7 @@
 [user]
-	email = samuel.ryberg@gmail.com
+	email = 26822321+TheExeQ@users.noreply.github.com
 	name = Samuel Ryberg
-	signingkey = /Users/samuelryberg/.ssh/git_signing.pub
+	signingkey = ~/.ssh/git_signing.pub
 [pull]
 	rebase = true
 [init]
