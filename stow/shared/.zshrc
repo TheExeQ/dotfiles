@@ -1,6 +1,8 @@
 # ~/.zshrc
 # Based of dreamsofautonomy/zensh
 
+export PATH="/Users/$USER/.local/bin:$PATH"
+
 [[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
 
 if [[ -f "/opt/homebrew/bin/brew" ]]; then
