@@ -19,5 +19,19 @@ install_gum
 
 #demo_ui
 
-stow_pkg Shared -nv
-stow_pkg $OS -nv
+clear
+
+"$GUM" style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
+"Welcome to Samuel's dotfiles!"
+
+echo "Stow packages:"
+selections=$(
+"$GUM" choose \
+--no-limit \
+"Shared" \
+"$OS"
+)
+
+while IFS= read -r selection; do
+  stow_pkg "$selection" -v
+done <<< "$selections"
