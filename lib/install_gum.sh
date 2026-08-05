@@ -1,7 +1,6 @@
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-BOOTSTRAP_DIR="$ROOT/.bootstrap"
-BIN_DIR="$BOOTSTRAP_DIR/bin"
+BIN_DIR="$ROOT/bin"
 GUM="$BIN_DIR/gum"
 
 mkdir -p "$BIN_DIR"
