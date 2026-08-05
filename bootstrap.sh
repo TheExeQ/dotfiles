@@ -13,7 +13,11 @@ fi
 source "./lib/env.sh"
 source "./lib/gum.sh"
 source "./lib/demo_ui.sh"
+source "./lib/stow.sh"
 
 install_gum
 
-demo_ui
+#demo_ui
+
+stow_pkg Shared -nv
+stow_pkg $OS -nv
