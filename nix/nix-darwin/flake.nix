@@ -65,6 +65,8 @@
       nix.settings.experimental-features = "nix-command flakes";
 
       # Enable alternative shell support in nix-darwin.
+      programs.bash.enable = false;
+      programs.zsh.enable = false;
       programs.fish.enable = true;
 
       # Set Git commit hash for darwin-version.

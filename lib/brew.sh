@@ -6,6 +6,7 @@ _install_brew() {
     fi
 
     echo "Installing Homebrew..."
+    sudo -v
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # Add Homebrew to PATH for current session
