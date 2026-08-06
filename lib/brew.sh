@@ -1,4 +1,5 @@
-install_brew() {
+_install_brew() {
+
     if command -v brew &> /dev/null; then
         echo "Homebrew already installed"
         return
@@ -19,4 +20,17 @@ install_brew() {
     if [[ ! -f "$profile" ]] || ! grep -q "brew shellenv" "$profile"; then
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$profile"
     fi
+
+}
+
+setup_brew() {
+
+if ! command -v brew &> /dev/null; then
+if "$GUM" confirm "Homebrew is required by this dotfiles setup, do you which to install it?"; then
+	_install_brew
+else
+	echo "Skipping homebrew installation"
+fi
+fi
+
 }
