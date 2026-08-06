@@ -15,6 +15,7 @@ source "./lib/env.sh"
 source "./lib/gum.sh"
 source "./lib/demo_ui.sh"
 source "./lib/stow.sh"
+source "./lib/brew.sh"
 
 bootstrap_parse_args "$@"
 
@@ -26,6 +27,16 @@ clear
 
 "$GUM" style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
 "Welcome to Samuel's dotfiles!"
+
+if [[ "$OS" == "Darwin" ]] && ! command -v brew &> /dev/null; then
+if "$GUM" confirm "Homebrew is required by this dotfiles setup, do you which to install it?"; then
+	install_brew
+else
+	echo "Skipping homebrew installation"
+fi
+fi
+
+exit 0
 
 echo "Stow packages:"
 selections=$(

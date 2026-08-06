@@ -25,6 +25,7 @@
       pkgs.fish
       pkgs.opencode
       pkgs.tmux
+      pkgs.utm
       ];
 
       homebrew = {
