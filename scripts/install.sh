@@ -3,7 +3,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
-REPO_URL="https://github.com/TheExeQ/dotfiles/tarball/main"
+REPO_URL="https://github.com/TheExeQ/dotfiles/tarball/nix" # currently using nix branch while testing
 
 # Check dependencies
 for cmd in curl tar; do
