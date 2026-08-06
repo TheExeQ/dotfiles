@@ -38,6 +38,8 @@ fi
 
 exit 0
 
+check_stow
+
 echo "Stow packages:"
 selections=$(
 "$GUM" choose \
