@@ -21,6 +21,10 @@ setup_nix_flags() {
 
 setup_nix_darwin() {
 
+	if ! "$GUM" confirm "Do you wish to run nix-darwin?"; then
+		return
+	fi
+
 	local NIX_COMMAND
 	local FLAKE_DIR="$DOTFILES_PATH/nix/nix-darwin/"
 	
@@ -30,7 +34,7 @@ setup_nix_darwin() {
 		NIX_COMMAND=(nix "${NIX_FLAGS[@]}" run nix-darwin/master#darwin-rebuild --)
 	fi	
 	
-	if [[ -f "$FLAKE_DIR/flake.nix" ]] && "$GUM" confirm "is $FLAKE_DIR the correct path?"; then
+	if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
 		sudo "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR#MBP"
 	fi
 
