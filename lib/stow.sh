@@ -8,11 +8,15 @@ fi
 
 stow_pkg() {
   local pkg="$1"
-  shift
+  [ -z "$pkg" ] && return
+  local subdir="$2"
+  shift 2
   local flags=("$@")
 
-  if [ -d "$STOW_DIR/$pkg" ]; then
-    stow "${flags[@]}" -d "$STOW_DIR" -t "$TARGET_DIR" "$pkg"
+  local stow_path="$STOW_DIR/$subdir"
+
+  if [ -d "$stow_path/$pkg" ]; then
+    stow "${flags[@]}" -d "$stow_path" -t "$TARGET_DIR" "$pkg"
   else
     echo "Skipping missing package: $pkg"
   fi

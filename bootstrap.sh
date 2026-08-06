@@ -9,54 +9,14 @@ if [[ "$PWD" != "$BOOTSTRAP_DIR" ]]; then
     exit 1
 fi
 
-usage() {
-    cat <<EOF
-Usage: $(basename "$0") [OPTIONS]
-
-Options:
-  -h, --help              Show this help message
-  -n, --dry-run           Show what stow would do without applying changes
-  -v, --verbose           Verbose stow output
-  -D, --uninstall         Uninstall stow setup
-EOF
-    exit 0
-}
-
-parse_args() {
-    DRY_RUN=""
-    VERBOSE=""
-    UNINSTALL=""
-
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -h|--help)
-                usage
-                ;;
-            -n|--dry-run)
-                DRY_RUN="-n"
-                ;;
-            -v|--verbose)
-                VERBOSE="-v"
-                ;;
-            -D|--uninstall)
-                UNINSTALL="-D"
-                ;;
-            *)
-                echo "Error: Unknown option '$1'" >&2
-                usage
-                ;;
-        esac
-	shift
-    done
-}
-
-parse_args "$@"
-
 # Include lib scripts
+source "./lib/options.sh"
 source "./lib/env.sh"
 source "./lib/gum.sh"
 source "./lib/demo_ui.sh"
 source "./lib/stow.sh"
+
+bootstrap_parse_args "$@"
 
 install_gum
 
@@ -75,6 +35,13 @@ selections=$(
 "$OS"
 )
 
+echo "Stowing to $TARGET_DIR"
 while IFS= read -r selection; do
-  stow_pkg "$selection" $DRY_RUN $VERBOSE $UNINSTALL
+  stow_pkg "$selection" home $DRY_RUN $VERBOSE $UNINSTALL
+done <<< "$selections"
+
+TARGET_DIR="/etc"
+echo "Stowing to $TARGET_DIR"
+while IFS= read -r selection; do
+  stow_pkg "$selection" etc $DRY_RUN $VERBOSE $UNINSTALL
 done <<< "$selections"

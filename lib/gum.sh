@@ -3,7 +3,6 @@ GUM="$BIN_DIR/gum"
 
 mkdir -p "$BIN_DIR"
 
-
 install_gum() {
     if [[ -x "$GUM" ]]; then
         echo "gum already installed"
