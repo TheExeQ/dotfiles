@@ -31,7 +31,7 @@ setup_nix_darwin() {
 	fi	
 	
 	if [[ -f "$FLAKE_DIR/flake.nix" ]] && "$GUM" confirm "is $FLAKE_DIR the correct path?"; then
-		sudo "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR"
+		sudo "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR#MBP"
 	fi
 
 }
