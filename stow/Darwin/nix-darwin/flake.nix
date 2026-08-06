@@ -36,7 +36,6 @@
 
       casks = [
       "ghostty"
-      "zen"
       ];
 
       onActivation = {

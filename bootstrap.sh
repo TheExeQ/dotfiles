@@ -37,11 +37,5 @@ selections=$(
 
 echo "Stowing to $TARGET_DIR"
 while IFS= read -r selection; do
-  stow_pkg "$selection" home $DRY_RUN $VERBOSE $UNINSTALL
-done <<< "$selections"
-
-TARGET_DIR="/etc"
-echo "Stowing to $TARGET_DIR"
-while IFS= read -r selection; do
-  stow_pkg "$selection" etc $DRY_RUN $VERBOSE $UNINSTALL
+  stow_pkg "$selection" $DRY_RUN $VERBOSE $UNINSTALL
 done <<< "$selections"
