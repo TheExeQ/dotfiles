@@ -39,6 +39,4 @@ mkdir -p "$DOTFILES_DIR"
 tar -xzf "$TMPFILE" --strip-components 1 -C "$DOTFILES_DIR"
 
 # Run bootstrap
-cd "$DOTFILES_DIR"
-echo "Running bootstrap..."
-./bootstrap.sh "$@"
+echo "Please cd to $DOTFILES_DIR and run \"./bootstrap.sh\" to continue the setup."
