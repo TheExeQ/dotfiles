@@ -14,18 +14,32 @@
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
       [
+      # Core packages
       pkgs.git
+      pkgs.neovim
+      pkgs.ripgrep
+      pkgs.fd
+      pkgs.lazygit
+      pkgs.fzf
+
+      # Tools
+      pkgs.fish
+      pkgs.fastfetch
       pkgs.python3
       pkgs.stow
-      pkgs.neovim
       pkgs.firefox
       pkgs.proton-pass-cli
-      pkgs.fastfetch
-      pkgs.starship
-      pkgs.fish
       pkgs.opencode
-      pkgs.tmux
       pkgs.utm
+
+      # Less important packages
+      pkgs.ast-grep
+      pkgs.luarocks
+      pkgs.nodejs_22
+      pkgs.imagemagick
+      pkgs.ghostscript
+      pkgs.mermaid-cli
+      pkgs.tectonic
       ];
 
       homebrew = {
