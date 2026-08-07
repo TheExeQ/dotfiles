@@ -6,7 +6,6 @@ set -x SSH_AUTH_SOCK ~/.ssh/proton-pass-agent.sock
 
 # -- General --
 # Navigation
-alias .1='cd ..'
 alias .2='cd ../..'
 alias .3='cd ../../..'
 alias ll='ls -lah'
