@@ -26,7 +26,7 @@ setup_nix_darwin() {
   fi
 
   local NIX_COMMAND
-  local FLAKE_DIR="$DOTFILES_PATH/nix/nix-darwin/"
+  local FLAKE_DIR="$DOTFILES_PATH/nix/"
 
   if command -v darwin-rebuild &>/dev/null; then
     NIX_COMMAND=(darwin-rebuild)
