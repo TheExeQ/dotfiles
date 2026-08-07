@@ -72,7 +72,17 @@
 
       system.defaults = 
       { 
-        dock.autohide = true;
+        dock = {
+          autohide = true;
+          minimize-to-application = true;
+          persistent-apps = [];
+        };
+
+        controlcenter = { 
+          BatteryShowPercentage = true;
+        };
+
+        NSGlobalDomain.AppleIconAppearanceTheme = "ClearDark";
       };
 
       # Necessary for using flakes on this system.
