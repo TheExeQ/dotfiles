@@ -32,6 +32,13 @@
         persistent-apps = [ ];
       };
 
+      finder = {
+        AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
+        FXPreferredViewStyle = "Nlsv";
+        ShowPathbar = true;
+      };
+
       controlcenter = {
         BatteryShowPercentage = true;
       };
