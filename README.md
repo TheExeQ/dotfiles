@@ -7,8 +7,13 @@ Personal dotfiles managed with **GNU Stow** and **Nix**, with support for macOS 
 ## Quick Start
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/nix/scripts/fetch.sh | bash
-cd ~/dotfiles && ./bootstrap.sh
+curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/nix/scripts/install.sh | bash
+```
+
+To install to a custom directory, set `DOTFILES_DIR`:
+
+```bash
+DOTFILES_DIR=~/mydotfiles
 ```
 
 ## What's Included
@@ -26,7 +31,7 @@ See `nix/nix-darwin/flake.nix` for the full macOS setup.
 ```
 dotfiles/
   bootstrap.sh          # Interactive setup wizard
-  scripts/fetch.sh      # One-liner remote installer
+  scripts/install.sh      # One-liner remote installer
   lib/                  # Shell library modules
   stow/                 # Symlinked dotfile packages
   nix/nix-darwin/       # nix-darwin system flake
@@ -34,5 +39,5 @@ dotfiles/
 
 ## How It Works
 
-1. `fetch.sh` downloads and extracts the repo to `~/dotfiles`
+1. `install.sh` downloads and extracts the repo to `~/dotfiles` (or `$DOTFILES_DIR`)
 2. `bootstrap.sh` installs `gum` locally, then presents an interactive menu to set up your package manager and symlink dotfiles

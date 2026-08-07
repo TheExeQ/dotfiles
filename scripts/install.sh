@@ -70,6 +70,6 @@ echo -e "${BOLD}${GREEN}══════════════════�
 echo -e "${BOLD}${GREEN}  Dotfiles installed successfully!${NC}"
 echo -e "${BOLD}${GREEN}════════════════════════════════════════════════════════════${NC}"
 echo ""
-echo -e "To complete setup, run:"
-echo -e "${CYAN}  cd $DOTFILES_DIR && ./bootstrap.sh${NC}"
-echo ""
+
+cd "$DOTFILES_DIR"
+exec ./bootstrap.sh
