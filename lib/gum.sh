@@ -4,57 +4,53 @@ GUM="$BIN_DIR/gum"
 mkdir -p "$BIN_DIR"
 
 install_gum() {
-    if [[ -x "$GUM" ]]; then
-        echo "gum already installed"
-        return
-    fi
+  if [[ -x "$GUM" ]]; then
+    echo "gum already installed"
+    return
+  fi
 
-    echo "Installing gum..."
+  echo "Installing gum..."
 
-    local os arch version archive tmp_dir
+  local os arch version archive tmp_dir
 
-    os="$OS" || exit 1
-    arch="$ARCH" || exit 1
+  os="$OS" || exit 1
+  arch="$ARCH" || exit 1
 
-    version="0.16.0"
+  version="0.16.0"
 
-    archive="gum_${version}_${os}_${arch}.tar.gz"
+  archive="gum_${version}_${os}_${arch}.tar.gz"
 
-    tmp_dir="$(mktemp -d)"
+  tmp_dir="$(mktemp -d)"
 
-    echo "Downloading gum ${version}..."
+  echo "Downloading gum ${version}..."
 
-    curl -fsSL \
-        "https://github.com/charmbracelet/gum/releases/download/v${version}/${archive}" \
-        -o "$tmp_dir/gum.tar.gz"
+  curl -fsSL \
+    "https://github.com/charmbracelet/gum/releases/download/v${version}/${archive}" \
+    -o "$tmp_dir/gum.tar.gz"
 
+  echo "Extracting..."
 
-    echo "Extracting..."
+  tar -xzf "$tmp_dir/gum.tar.gz" -C "$tmp_dir"
 
-    tar -xzf "$tmp_dir/gum.tar.gz" -C "$tmp_dir"
+  gum_binary="$(find "$tmp_dir" -type f -name gum | head -n 1)"
 
-
-    gum_binary="$(find "$tmp_dir" -type f -name gum | head -n 1)"
-
-    if [[ -z "$gum_binary" ]]; then
-        echo "Could not find gum binary after extraction"
-        rm -rf "$tmp_dir"
-        exit 1
-    fi
-
-
-    mv "$gum_binary" "$GUM"
-
-    chmod +x "$GUM"
-
+  if [[ -z "$gum_binary" ]]; then
+    echo "Could not find gum binary after extraction"
     rm -rf "$tmp_dir"
+    exit 1
+  fi
 
+  mv "$gum_binary" "$GUM"
 
-    if ! "$GUM" --version >/dev/null; then
-        echo "gum installation failed"
-        exit 1
-    fi
+  chmod +x "$GUM"
 
-    echo "Installed gum:"
-    "$GUM" --version
+  rm -rf "$tmp_dir"
+
+  if ! "$GUM" --version >/dev/null; then
+    echo "gum installation failed"
+    exit 1
+  fi
+
+  echo "Installed gum:"
+  "$GUM" --version
 }

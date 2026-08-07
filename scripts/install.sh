@@ -18,32 +18,32 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}Checking dependencies...${NC}"
 missing_deps=()
 for cmd in curl tar; do
-    if ! command -v "$cmd" &>/dev/null; then
-        missing_deps+=("$cmd")
-    fi
+  if ! command -v "$cmd" &>/dev/null; then
+    missing_deps+=("$cmd")
+  fi
 done
 
 if [[ ${#missing_deps[@]} -gt 0 ]]; then
-    echo -e "${RED}✗ Missing required tools: ${missing_deps[*]}${NC}" >&2
-    echo -e "${YELLOW}  Please install them and try again.${NC}" >&2
-    exit 1
+  echo -e "${RED}✗ Missing required tools: ${missing_deps[*]}${NC}" >&2
+  echo -e "${YELLOW}  Please install them and try again.${NC}" >&2
+  exit 1
 else
-    echo -e "${GREEN}✓ All dependencies satisfied${NC}"
+  echo -e "${GREEN}✓ All dependencies satisfied${NC}"
 fi
 
 # Check if directory already exists
 echo ""
 echo -e "${BLUE}Checking installation directory...${NC}"
 if [[ -d "$DOTFILES_DIR" ]]; then
-    echo -e "${RED}✗ Directory already exists: ${BOLD}$DOTFILES_DIR${NC}"
-    echo ""
-    echo -e "Please remove or rename it, then rerun this script:"
-    echo -e "  ${CYAN}rm -rf $DOTFILES_DIR${NC}          ${YELLOW}# delete it${NC}"
-    echo -e "  ${CYAN}mv $DOTFILES_DIR ${DOTFILES_DIR}.bak${NC}  ${YELLOW}# backup it${NC}"
-    echo ""
-    exit 1
+  echo -e "${RED}✗ Directory already exists: ${BOLD}$DOTFILES_DIR${NC}"
+  echo ""
+  echo -e "Please remove or rename it, then rerun this script:"
+  echo -e "  ${CYAN}rm -rf $DOTFILES_DIR${NC}          ${YELLOW}# delete it${NC}"
+  echo -e "  ${CYAN}mv $DOTFILES_DIR ${DOTFILES_DIR}.bak${NC}  ${YELLOW}# backup it${NC}"
+  echo ""
+  exit 1
 else
-    echo -e "${GREEN}✓ Installation directory ready${NC}"
+  echo -e "${GREEN}✓ Installation directory ready${NC}"
 fi
 
 # Download and extract
@@ -53,8 +53,8 @@ TMPFILE=$(mktemp)
 trap 'rm -f "$TMPFILE"' EXIT
 
 if ! curl -fsSL -o "$TMPFILE" "$REPO_URL"; then
-    echo -e "${RED}✗ Failed to download dotfiles from repository${NC}" >&2
-    exit 1
+  echo -e "${RED}✗ Failed to download dotfiles from repository${NC}" >&2
+  exit 1
 fi
 echo -e "${GREEN}✓ Download complete${NC}"
 
