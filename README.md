@@ -1,56 +1,41 @@
 # Dotfiles
 
-This repo manages symlinked dotfiles with GNU Stow.
+Personal dotfiles managed with **GNU Stow** and **Nix**, with support for macOS (Apple Silicon) and Linux.
 
-## Repository layout
+## Quick Start
 
-- `stow/`: stow packages (for example, `stow/shared`)
-- `install/`: setup scripts (for example, `install/bootstrap.sh`)
+```bash
+curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/main/scripts/install.sh | bash
+```
 
-## Prerequisites
+To install to a custom directory, set `DOTFILES_DIR`:
 
-- `git`
-- GNU Stow (`stow`)
+```bash
+DOTFILES_DIR=~/mydotfiles
+```
 
-Install Stow:
+## What's Included
 
-- macOS (Homebrew): `brew install stow`
-- Debian/Ubuntu: `sudo apt install stow`
-- Fedora: `sudo dnf install stow`
+- **Shell** - Fish as default shell
+- **Editor** - Neovim
+- **Terminal** - Ghostty with custom theme
+- **Tools** - Git, tmux, Python, and more
+- **System** - Custom key remaps, Dock behavior, and shell preferences
 
-## Configure dotfiles with bootstrap script
+See `nix/flake.nix` for the full system setup.
 
-1. Clone the repo:
+## Structure
 
-   ```bash
-   git clone https://github.com/TheExeQ/dotfiles ~/dotfiles
-   cd ~/dotfiles
-   ```
+```
+dotfiles/
+  bootstrap.sh          # Interactive setup wizard
+  scripts/install.sh      # One-liner remote installer
+  lib/                  # Shell library modules
+  stow/                 # Symlinked dotfile packages
+  nix/                  # nix system files
+```
 
-2. Optional: preview changes without modifying files:
+## How It Works
 
-   ```bash
-   ./install/bootstrap.sh --dry-run
-   ```
-
-3. Apply configuration:
-
-   ```bash
-   ./install/bootstrap.sh
-   ```
-
-## What `bootstrap.sh` does
-
-- Verifies `stow` is installed.
-- Uses your home directory (`$HOME`) as the stow target.
-- Uses `stow/` as the stow package directory.
-- Always stows the `shared` package.
-- Also stows one OS-specific package:
-  - `mac` on macOS (`Darwin`)
-  - `linux` on Linux
-- If a package directory is missing, it is skipped.
-- Supports `--dry-run`, `--undo` and `--help`.
-
-## Re-running
-
-You can safely re-run `./install/bootstrap.sh` after updates to re-apply symlinks.
+1. `install.sh` downloads and extracts the repo to `~/dotfiles` (or `$DOTFILES_DIR`)
+2. `bootstrap.sh` installs `gum` locally, then presents an interactive menu to set up your package manager and symlink dotfiles

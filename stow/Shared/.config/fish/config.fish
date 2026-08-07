@@ -1,0 +1,53 @@
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+end
+eval "$(/opt/homebrew/bin/brew shellenv fish)"
+set -x SSH_AUTH_SOCK ~/.ssh/proton-pass-agent.sock
+
+# -- General --
+# Navigation
+alias .2='cd ../..'
+alias .3='cd ../../..'
+alias ll='ls -lah'
+alias la='ls -A'
+
+# Network
+alias myip='curl -s ifconfig.me'
+alias myip6='curl -s ifconfig.me/ip6'
+
+# -- Git --
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gpl='git pull'
+alias gst='git stash'
+alias gstp='git stash pop'
+
+# Undo last commit but keep changes staged
+alias gundo='git reset --soft HEAD~1'
+
+# -- Kubernetes --
+# Core
+alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kgn='kubectl get nodes'
+alias kgs='kubectl get svc'
+alias kgd='kubectl get deployments'
+
+# Describe
+alias kdp='kubectl describe pod'
+alias kdn='kubectl describe node'
+
+# -- Terraform --
+alias tf='terraform'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+alias tfd='terraform destroy'
+alias tfo='terraform output'
+alias tfs='terraform show'
+alias tfv='terraform validate'
+
+fastfetch
