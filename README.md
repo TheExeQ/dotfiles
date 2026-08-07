@@ -2,12 +2,10 @@
 
 Personal dotfiles managed with **GNU Stow** and **Nix**, with support for macOS (Apple Silicon) and Linux.
 
-> WORK IN PROGRESS
-
 ## Quick Start
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/nix/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/main/scripts/install.sh | bash
 ```
 
 To install to a custom directory, set `DOTFILES_DIR`:
@@ -24,7 +22,7 @@ DOTFILES_DIR=~/mydotfiles
 - **Tools** - Git, tmux, Python, and more
 - **System** - Custom key remaps, Dock behavior, and shell preferences
 
-See `nix/nix-darwin/flake.nix` for the full macOS setup.
+See `nix/flake.nix` for the full system setup.
 
 ## Structure
 
@@ -34,7 +32,7 @@ dotfiles/
   scripts/install.sh      # One-liner remote installer
   lib/                  # Shell library modules
   stow/                 # Symlinked dotfile packages
-  nix/nix-darwin/       # nix-darwin system flake
+  nix/                  # nix system files
 ```
 
 ## How It Works
