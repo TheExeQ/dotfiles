@@ -47,6 +47,16 @@ setup_nix() {
   NIX_FLAGS+=(--extra-experimental-features "nix-command flakes")
 }
 
+_backup_etc_files() {
+  local files=("/etc/bashrc" "/etc/zshrc" "/etc/zprofile" "/etc/zshenv" "/etc/bash.bashrc" "/etc/nix/nix.conf")
+  for file in "${files[@]}"; do
+    if [[ -f "$file" && ! -L "$file" ]]; then
+      sudo mv "$file" "$file.before-nix-darwin"
+      echo "Backed up $file -> $file.before-nix-darwin"
+    fi
+  done
+}
+
 setup_nix_darwin() {
   if [[ "$NIX_DARWIN_CHOICE" != "yes" ]]; then
     return
@@ -69,6 +79,7 @@ setup_nix_darwin() {
   fi
 
   if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
+    _backup_etc_files
     sudo "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR#MBP"
   fi
 }
