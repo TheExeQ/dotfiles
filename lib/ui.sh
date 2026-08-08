@@ -29,7 +29,6 @@ select_nix() {
     NIX_CHOICE="no"
     return
   fi
-  echo "Do you want to install Nix?"
   NIX_CHOICE=$(run_gum confirm "Nix is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
 }
 
@@ -39,17 +38,15 @@ select_brew() {
     BREW_CHOICE="no"
     return
   fi
-  echo "Do you want to install Homebrew?"
   BREW_CHOICE=$(run_gum confirm "Homebrew is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
 }
 
 select_nix_darwin() {
-  if ! command -v nix &>/dev/null; then
+  if ! command -v nix &>/dev/null && [[ "$NIX_CHOICE" != "yes" ]]; then
     echo "Skipping nix-darwin (nix not installed)"
     NIX_DARWIN_CHOICE="no"
     return
   fi
-  echo "Do you want to run nix-darwin?"
   NIX_DARWIN_CHOICE=$(run_gum confirm "Do you wish to run nix-darwin?" && echo "yes" || echo "no")
 }
 
