@@ -7,7 +7,11 @@ _install_nix() {
 
   echo "Installing Nix Package Manager..."
   sudo -v
-  curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+  if [[ "$OS" == "Darwin" ]]; then
+    curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh
+  else
+    curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+  fi
 
   local NIX_DAEMON_SH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
   if [[ ! -f "$NIX_DAEMON_SH" ]]; then
@@ -56,10 +60,6 @@ setup_nix_darwin() {
 
   local NIX_COMMAND
   local FLAKE_DIR="$DOTFILES_PATH/nix/"
-
-  echo ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"}
-
-  exit 0
 
   if command -v darwin-rebuild &>/dev/null; then
     NIX_COMMAND=(darwin-rebuild)
