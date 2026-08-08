@@ -57,10 +57,14 @@ setup_nix_darwin() {
   local NIX_COMMAND
   local FLAKE_DIR="$DOTFILES_PATH/nix/"
 
+  echo ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"}
+
+  exit 0
+
   if command -v darwin-rebuild &>/dev/null; then
     NIX_COMMAND=(darwin-rebuild)
   else
-    NIX_COMMAND=(nix "${NIX_FLAGS[@]}" run nix-darwin/master#darwin-rebuild --)
+    NIX_COMMAND=(nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run nix-darwin/master#darwin-rebuild --)
   fi
 
   if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
