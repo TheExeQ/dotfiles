@@ -12,13 +12,6 @@ _install_nix() {
   else
     curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
   fi
-
-  local NIX_DAEMON_SH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-  if [[ ! -f "$NIX_DAEMON_SH" ]]; then
-    echo "Error: Nix daemon profile not found at $NIX_DAEMON_SH"
-    exit 1
-  fi
-  source "$NIX_DAEMON_SH"
 }
 
 _nix_flags() {
