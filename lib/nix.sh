@@ -31,7 +31,7 @@ _nix_flags() {
 
 setup_nix() {
   if ! command -v nix &>/dev/null; then
-    if run_gum confirm "Nix is required by this dotfiles setup, do you wish to install it?"; then
+    if confirm_install_nix; then
       _install_nix
     else
       echo "Skipping nix installation"
@@ -47,7 +47,7 @@ setup_nix_darwin() {
     echo "Required Nix experimental features are not enabled in the Nix config; using command-line flags."
   fi
 
-  if ! run_gum confirm "Do you wish to run nix-darwin?"; then
+  if ! confirm_nix_darwin; then
     return
   fi
 

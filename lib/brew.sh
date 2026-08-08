@@ -27,7 +27,7 @@ _install_brew() {
 setup_brew() {
 
   if ! command -v brew &>/dev/null; then
-    if run_gum confirm "Homebrew is required by this dotfiles setup, do you wish to install it?"; then
+    if confirm_install_brew; then
       _install_brew
     else
       echo "Skipping homebrew installation"

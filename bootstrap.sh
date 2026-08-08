@@ -19,6 +19,7 @@ source "./lib/stow.sh"
 
 source "./lib/nix.sh"
 source "./lib/brew.sh"
+source "./lib/ui.sh"
 
 _setup_pkg_manager() {
   # Verifies that the user has nix installed.
@@ -46,20 +47,14 @@ _setup_dotfiles() {
   # Verifies that the user has stow installed.
   check_stow
 
-  echo "Which packages do you want to stow?"
-  local selections=$(
-    run_gum choose \
-      --no-limit \
-      --selected "*" \
-      "Shared" \
-      "$OS"
-  )
+  select_packages "$OS"
+  local selections="$SELECTIONS"
 
   # Perform dry run to make sure user approves changes before performing them.
   echo "Stowing to $TARGET_DIR"
   _stow_selections "$selections" -n -v $UNINSTALL
 
-  if run_gum confirm "The following actions will be performed do you accept these changes?"; then
+  if confirm_changes; then
     _stow_selections "$selections" -v $UNINSTALL
     echo "Stow succeeded"
   else
@@ -74,18 +69,10 @@ install_gum
 
 clear
 
-run_gum style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
-  "Welcome to Samuel's dotfiles!"
+show_welcome
 
-echo "Which jobs would you like the bootstrapper to perform?"
-selections=$(
-  run_gum choose \
-    --no-limit \
-    --label-delimiter "#" \
-    --selected "*" \
-    "Setup package manager (requires nix)#pkg_manager" \
-    "Setup dotfiles#dotfiles"
-)
+select_jobs
+selections="$SELECTIONS"
 
 while IFS= read -r selection; do
   case "$selection" in
