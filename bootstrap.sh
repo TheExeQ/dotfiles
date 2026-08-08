@@ -20,13 +20,12 @@ source "./lib/stow.sh"
 source "./lib/nix.sh"
 source "./lib/brew.sh"
 source "./lib/ui.sh"
-
 _setup_pkg_manager() {
-  # Verifies that the user has nix installed.
+  install_nix
   setup_nix
 
-  # Only runs on Darwin systems.
   if [[ "$OS" == "Darwin" ]]; then
+    install_brew
     setup_brew
 
     setup_nix_darwin
@@ -43,23 +42,14 @@ _stow_selections() {
 }
 
 _setup_dotfiles() {
-
   # Verifies that the user has stow installed.
   check_stow
 
-  select_packages "$OS"
-  local selections="$SELECTIONS"
-
-  # Perform dry run to make sure user approves changes before performing them.
   echo "Stowing to $TARGET_DIR"
-  _stow_selections "$selections" -n -v $UNINSTALL
+  _stow_selections "$PACKAGES" -n -v $UNINSTALL
 
-  if confirm_changes; then
-    _stow_selections "$selections" -v $UNINSTALL
-    echo "Stow succeeded"
-  else
-    echo "Stow aborted"
-  fi
+  _stow_selections "$PACKAGES" -v $UNINSTALL
+  echo "Stow succeeded"
 }
 
 bootstrap_parse_args "$@"
@@ -71,19 +61,41 @@ clear
 
 show_welcome
 
+# Phase 1: Collect all choices
 select_jobs
-selections="$SELECTIONS"
+JOBS="$SELECTIONS"
 
-while IFS= read -r selection; do
-  case "$selection" in
+if [[ "$JOBS" == *"pkg_manager"* ]]; then
+  select_nix
+  if [[ "$OS" == "Darwin" ]]; then
+    select_brew
+    select_nix_darwin
+  fi
+fi
+
+if [[ "$JOBS" == *"dotfiles"* ]]; then
+  select_packages "$OS"
+  PACKAGES="$SELECTIONS"
+fi
+
+# Phase 2: Show summary and confirm
+show_summary
+
+if ! confirm_summary; then
+  echo "Aborted."
+  exit 0
+fi
+
+# Phase 3: Execute silently
+clear
+
+while IFS= read -r job; do
+  case "$job" in
   pkg_manager)
     _setup_pkg_manager
     ;;
   dotfiles)
     _setup_dotfiles
     ;;
-  *)
-    echo "Unknown selection: $selection"
-    ;;
   esac
-done <<<"$selections"
+done <<<"$JOBS"

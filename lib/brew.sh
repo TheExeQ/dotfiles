@@ -1,4 +1,8 @@
-_install_brew() {
+install_brew() {
+  if [[ "$BREW_CHOICE" != "yes" ]]; then
+    echo "Skipping homebrew installation"
+    return
+  fi
 
   if command -v brew &>/dev/null; then
     echo "Homebrew already installed"
@@ -8,30 +12,21 @@ _install_brew() {
   echo "Installing Homebrew..."
   sudo -v
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
 
-  # Add Homebrew to PATH for current session
+setup_brew() {
+  if ! command -v brew &>/dev/null; then
+    return
+  fi
+
   if [[ -x "/opt/homebrew/bin/brew" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   elif [[ -x "/usr/local/bin/brew" ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
 
-  # Add to .zprofile if not already present
   local profile="$HOME/.zprofile"
   if [[ ! -f "$profile" ]] || ! grep -q "brew shellenv" "$profile"; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>"$profile"
   fi
-
-}
-
-setup_brew() {
-
-  if ! command -v brew &>/dev/null; then
-    if confirm_install_brew; then
-      _install_brew
-    else
-      echo "Skipping homebrew installation"
-    fi
-  fi
-
 }

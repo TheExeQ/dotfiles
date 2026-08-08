@@ -23,18 +23,47 @@ select_packages() {
     "$os")
 }
 
-confirm_changes() {
-  run_gum confirm "The following actions will be performed do you accept these changes?"
+select_nix() {
+  if command -v nix &>/dev/null; then
+    echo "Nix already installed"
+    NIX_CHOICE="no"
+    return
+  fi
+  echo "Do you want to install Nix?"
+  NIX_CHOICE=$(run_gum confirm "Nix is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
 }
 
-confirm_install_brew() {
-  run_gum confirm "Homebrew is required by this dotfiles setup, do you wish to install it?"
+select_brew() {
+  if command -v brew &>/dev/null; then
+    echo "Homebrew already installed"
+    BREW_CHOICE="no"
+    return
+  fi
+  echo "Do you want to install Homebrew?"
+  BREW_CHOICE=$(run_gum confirm "Homebrew is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
 }
 
-confirm_install_nix() {
-  run_gum confirm "Nix is required by this dotfiles setup, do you wish to install it?"
+select_nix_darwin() {
+  if ! command -v nix &>/dev/null; then
+    echo "Skipping nix-darwin (nix not installed)"
+    NIX_DARWIN_CHOICE="no"
+    return
+  fi
+  echo "Do you want to run nix-darwin?"
+  NIX_DARWIN_CHOICE=$(run_gum confirm "Do you wish to run nix-darwin?" && echo "yes" || echo "no")
 }
 
-confirm_nix_darwin() {
-  run_gum confirm "Do you wish to run nix-darwin?"
+show_summary() {
+  run_gum style --foreground 212 --border-foreground 212 --border double --align left --width 50 --margin "1 2" --padding "2 4" \
+    "Summary of your choices:" \
+    "" \
+    "Jobs: $JOBS" \
+    "Install Nix: ${NIX_CHOICE:-no}" \
+    "Install Homebrew: ${BREW_CHOICE:-no}" \
+    "Run nix-darwin: ${NIX_DARWIN_CHOICE:-no}" \
+    "Packages: ${PACKAGES:-none}"
+}
+
+confirm_summary() {
+  run_gum confirm "Do you want to proceed with these choices?"
 }
