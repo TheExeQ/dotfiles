@@ -5,23 +5,27 @@ Usage: $(basename "$0") [OPTIONS]
 
 Options:
   -h, --help              Show this help message
-  -D, --uninstall         Uninstall stow setup
+  -y, --yes               Skip confirmations
+  -D, --uninstall         Uninstall dotfiles setup
 EOF
   exit 0
 }
 
 bootstrap_parse_args() {
   DRY_RUN=""
-  VERBOSE=""
   UNINSTALL=""
+  YES=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
     -h | --help)
       _bootstrap_usage
       ;;
+    -y | --yes)
+      YES=1
+      ;;
     -D | --uninstall)
-      UNINSTALL="-D"
+      UNINSTALL=1
       ;;
     *)
       echo "Error: Unknown option '$1'" >&2

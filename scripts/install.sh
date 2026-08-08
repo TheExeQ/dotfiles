@@ -72,4 +72,4 @@ echo -e "${BOLD}${GREEN}══════════════════�
 echo ""
 
 cd "$DOTFILES_DIR"
-exec ./bootstrap.sh
+exec ./bootstrap.sh "$@"

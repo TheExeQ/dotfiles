@@ -20,6 +20,7 @@ source "./lib/stow.sh"
 source "./lib/nix.sh"
 source "./lib/brew.sh"
 source "./lib/ui.sh"
+
 _setup_pkg_manager() {
   install_nix
   setup_nix
@@ -46,44 +47,52 @@ _setup_dotfiles() {
   check_stow
 
   echo "Stowing to $TARGET_DIR"
-  _stow_selections "$PACKAGES" -n -v $UNINSTALL
+  _stow_selections "$PACKAGES" -n -v ${UNINSTALL:+-D}
 
-  _stow_selections "$PACKAGES" -v $UNINSTALL
+  _stow_selections "$PACKAGES" -v ${UNINSTALL:+-D}
   echo "Stow succeeded"
 }
 
 bootstrap_parse_args "$@"
 
-# Downloads binaries for gum (Terminal User Interface) for nicer UI with the bootstrap.
-install_gum
+if [[ -n "$YES" ]]; then
+  JOBS=$'pkg_manager\ndotfiles'
+  NIX_CHOICE="yes"
+  BREW_CHOICE="yes"
+  NIX_DARWIN_CHOICE="yes"
+  PACKAGES=$'Shared\n'"$OS"
+else
+  # Downloads binaries for gum (Terminal User Interface) for nicer UI with the bootstrap.
+  install_gum
 
-clear
+  clear
 
-show_welcome
+  show_welcome
 
-# Phase 1: Collect all choices
-select_jobs
-JOBS="$SELECTIONS"
+  # Phase 1: Collect all choices
+  select_jobs
+  JOBS="$SELECTIONS"
 
-if [[ "$JOBS" == *"pkg_manager"* ]]; then
-  select_nix
-  if [[ "$OS" == "Darwin" ]]; then
-    select_brew
-    select_nix_darwin
+  if [[ "$JOBS" == *"pkg_manager"* ]]; then
+    select_nix
+    if [[ "$OS" == "Darwin" ]]; then
+      select_brew
+      select_nix_darwin
+    fi
   fi
-fi
 
-if [[ "$JOBS" == *"dotfiles"* ]]; then
-  select_packages "$OS"
-  PACKAGES="$SELECTIONS"
-fi
+  if [[ "$JOBS" == *"dotfiles"* ]]; then
+    select_packages "$OS"
+    PACKAGES="$SELECTIONS"
+  fi
 
-# Phase 2: Show summary and confirm
-show_summary
+  # Phase 2: Show summary and confirm
+  show_summary
 
-if ! confirm_summary; then
-  echo "Aborted."
-  exit 0
+  if ! confirm_summary; then
+    echo "Aborted."
+    exit 0
+  fi
 fi
 
 # Phase 3: Execute silently

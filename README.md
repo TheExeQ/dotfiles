@@ -8,6 +8,12 @@ Personal dotfiles managed with **GNU Stow** and **Nix**, with support for macOS 
 curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/main/scripts/install.sh | bash
 ```
 
+For CI/automation, use the `--yes` flag to skip confirmations:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/TheExeQ/dotfiles/main/scripts/install.sh | bash -s -- --yes
+```
+
 To install to a custom directory, set `DOTFILES_DIR`:
 
 ```bash
