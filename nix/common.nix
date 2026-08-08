@@ -31,8 +31,8 @@
   ];
 
   programs = {
-    bash.enable = false;
-    zsh.enable = false;
+    bash.enable = true;
+    zsh.enable = true;
     fish.enable = true;
   };
 

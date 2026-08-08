@@ -22,13 +22,13 @@ install_brew() {
 }
 
 setup_brew() {
-  _require_brew || return
-
   if [[ -x "/opt/homebrew/bin/brew" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
   elif [[ -x "/usr/local/bin/brew" ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
+
+  _require_brew || return
 
   local profile="$HOME/.zprofile"
   if [[ ! -f "$profile" ]] || ! grep -q "brew shellenv" "$profile"; then
