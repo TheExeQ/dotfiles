@@ -23,10 +23,7 @@ source "./lib/brew.sh"
 _setup_pkg_manager() {
 
   # Verifies that the user has nix installed.
-  check_nix
-
-  # Updates NIX_FLAGS variable depending on which nix installation the user has.
-  setup_nix_flags
+  setup_nix
 
   # Only runs on Darwin systems.
   if [[ "$OS" == "Darwin" ]]; then

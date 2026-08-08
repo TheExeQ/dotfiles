@@ -1,13 +1,18 @@
-check_nix() {
+_install_nix() {
 
-  if ! command -v nix &>/dev/null; then
-    echo "Error: Nix Package Manager is not installed."
-    exit 1
+  if command -v nix &>/dev/null; then
+    echo "Nix already installed"
+    return
   fi
 
+  echo "Installing Nix Package Manager..."
+  sudo -v
+  curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
+
+  export PATH="/nix/var/nix/profiles/default/bin:$PATH"
 }
 
-setup_nix_flags() {
+_nix_flags() {
   NIX_FLAGS=()
 
   # Check if experimental features are already enabled via nix show-config
@@ -20,6 +25,19 @@ setup_nix_flags() {
 
   # Experimental features not enabled, add flags
   NIX_FLAGS+=(--extra-experimental-features "nix-command flakes")
+}
+
+setup_nix() {
+  if ! command -v nix &>/dev/null; then
+    if "$GUM" confirm "Nix is required by this dotfiles setup, do you which to install it?"; then
+      _install_nix
+    else
+      echo "Skipping nix installation"
+      exit 0
+    fi
+  fi
+
+  _nix_flags
 }
 
 setup_nix_darwin() {
