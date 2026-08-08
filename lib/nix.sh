@@ -5,11 +5,14 @@ _install_nix() {
     return
   fi
 
+  echo "WIP: Auto download nix is currently not working, please install it manually and rerun this script"
+  exit 0
+
   echo "Installing Nix Package Manager..."
   sudo -v
   curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
 
-  export PATH="/nix/var/nix/profiles/default/bin:$PATH"
+  export PATH="/nix/var/nix/profiles/default/bin:$PATH" # todo: this is not enough and needs to be fixed
 }
 
 _nix_flags() {
@@ -29,7 +32,7 @@ _nix_flags() {
 
 setup_nix() {
   if ! command -v nix &>/dev/null; then
-    if "$GUM" confirm "Nix is required by this dotfiles setup, do you which to install it?"; then
+    if "$GUM" confirm "Nix is required by this dotfiles setup, do you wish to install it?"; then
       _install_nix
     else
       echo "Skipping nix installation"

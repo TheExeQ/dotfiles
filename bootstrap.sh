@@ -54,7 +54,6 @@ _setup_dotfiles() {
   local selections=$(
     "$GUM" choose \
       --no-limit \
-      --selected "*" \
       "Shared" \
       "$OS"
   )
@@ -87,7 +86,6 @@ selections=$(
   "$GUM" choose \
     --no-limit \
     --label-delimiter "#" \
-    --selected "*" \
     "Setup package manager (requires nix)#pkg_manager" \
     "Setup dotfiles#dotfiles"
 )
