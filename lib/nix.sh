@@ -81,5 +81,6 @@ setup_nix_darwin() {
   if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
     _backup_etc_files
     sudo "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR#MBP"
+    export PATH="/run/current-system/sw/bin:$PATH"
   fi
 }
