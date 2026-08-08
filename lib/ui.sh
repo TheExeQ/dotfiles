@@ -4,7 +4,7 @@ show_welcome() {
 }
 
 select_jobs() {
-  echo "Which jobs would you like the bootstrapper to perform?"
+  echo "Which setup tasks would you like to run?"
   SELECTIONS=$(run_gum choose \
     --no-limit \
     --label-delimiter "#" \
@@ -15,7 +15,7 @@ select_jobs() {
 
 select_packages() {
   local os="$1"
-  echo "Which packages do you want to stow?"
+  echo "Which package sets would you like to install?"
   SELECTIONS=$(run_gum choose \
     --no-limit \
     --selected "*" \
@@ -29,7 +29,13 @@ select_nix() {
     NIX_CHOICE="no"
     return
   fi
-  NIX_CHOICE=$(run_gum confirm "Nix is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
+
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    NIX_CHOICE="no"
+    return
+  fi
+
+  NIX_CHOICE=$(run_gum confirm "Nix is required. Install it?" && echo "yes" || echo "no")
 }
 
 select_brew() {
@@ -38,7 +44,13 @@ select_brew() {
     BREW_CHOICE="no"
     return
   fi
-  BREW_CHOICE=$(run_gum confirm "Homebrew is required by this dotfiles setup, do you wish to install it?" && echo "yes" || echo "no")
+
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    BREW_CHOICE="no"
+    return
+  fi
+
+  BREW_CHOICE=$(run_gum confirm "Homebrew is required. Install it?" && echo "yes" || echo "no")
 }
 
 select_nix_darwin() {
@@ -47,7 +59,7 @@ select_nix_darwin() {
     NIX_DARWIN_CHOICE="no"
     return
   fi
-  NIX_DARWIN_CHOICE=$(run_gum confirm "Do you wish to run nix-darwin?" && echo "yes" || echo "no")
+  NIX_DARWIN_CHOICE=$(run_gum confirm "Do you want to enable nix-darwin?" && echo "yes" || echo "no")
 }
 
 show_summary() {
@@ -58,7 +70,10 @@ show_summary() {
     "Install Nix: ${NIX_CHOICE:-no}" \
     "Install Homebrew: ${BREW_CHOICE:-no}" \
     "Run nix-darwin: ${NIX_DARWIN_CHOICE:-no}" \
-    "Packages: ${PACKAGES:-none}"
+    "Packages: ${PACKAGES:-none}" \
+    "" \
+    "Note: The --uninstall flag will remove dotfiles and nix-darwin." \
+    "Nix and Homebrew must be uninstalled manually."
 }
 
 confirm_summary() {

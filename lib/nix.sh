@@ -84,3 +84,20 @@ setup_nix_darwin() {
     export PATH="/run/current-system/sw/bin:$PATH"
   fi
 }
+
+uninstall_nix_darwin() {
+  _require_nix || return
+
+  if ! command -v darwin-rebuild &>/dev/null; then
+    echo "nix-darwin not installed, skipping"
+    return
+  fi
+
+  echo "Uninstalling nix-darwin..."
+
+  if command -v darwin-uninstaller &>/dev/null; then
+    sudo darwin-uninstaller
+  else
+    sudo nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run nix-darwin#darwin-uninstaller
+  fi
+}

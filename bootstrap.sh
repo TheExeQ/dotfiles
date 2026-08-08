@@ -29,7 +29,11 @@ _setup_pkg_manager() {
     install_brew
     setup_brew
 
-    setup_nix_darwin
+    if [[ -n "${UNINSTALL:-}" ]]; then
+      uninstall_nix_darwin
+    else
+      setup_nix_darwin
+    fi
   fi
 }
 
@@ -57,8 +61,13 @@ bootstrap_parse_args "$@"
 
 if [[ -n "$YES" ]]; then
   JOBS=$'pkg_manager\ndotfiles'
-  NIX_CHOICE="yes"
-  BREW_CHOICE="yes"
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    NIX_CHOICE="no"
+    BREW_CHOICE="no"
+  else
+    NIX_CHOICE="yes"
+    BREW_CHOICE="yes"
+  fi
   NIX_DARWIN_CHOICE="yes"
   PACKAGES=$'Shared\n'"$OS"
 else
