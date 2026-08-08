@@ -3,11 +3,6 @@ GUM="$BIN_DIR/gum"
 
 mkdir -p "$BIN_DIR"
 
-# Drain any stale input from the TTY buffer
-_drain_input() {
-  while read -t 0.1 -r _ 2>/dev/null; do :; done || true
-}
-
 install_gum() {
   if [[ -x "$GUM" ]]; then
     echo "gum already installed"
@@ -60,7 +55,13 @@ install_gum() {
   "$GUM" --version
 }
 
+# Run gum with interactive input from the terminal.
+# When stdin is not a TTY (e.g. inside a while loop with a here-string),
+# force gum to read from /dev/tty so prompts don't consume stale stdin data.
 run_gum() {
-  _drain_input
-  "$GUM" "$@"
+  if [[ ! -t 0 ]]; then
+    "$GUM" "$@" </dev/tty
+  else
+    "$GUM" "$@"
+  fi
 }
