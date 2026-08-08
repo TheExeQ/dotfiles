@@ -1,21 +1,33 @@
 show_welcome() {
+  local lines=("Welcome to Samuel's dotfiles!")
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    lines+=("" "!! UNINSTALL MODE !!" "This will remove dotfiles and configuration.")
+  fi
   run_gum style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
-    "Welcome to Samuel's dotfiles!"
+    "${lines[@]}"
 }
 
 select_jobs() {
-  echo "Which setup tasks would you like to run?"
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    echo "Which uninstall tasks would you like to run?"
+  else
+    echo "Which setup tasks would you like to run?"
+  fi
   SELECTIONS=$(run_gum choose \
     --no-limit \
     --label-delimiter "#" \
     --selected "*" \
-    "Setup package manager (requires nix)#pkg_manager" \
-    "Setup dotfiles#dotfiles")
+    "Package Manager#pkg_manager" \
+    "Dotfiles#dotfiles")
 }
 
 select_packages() {
   local os="$1"
-  echo "Which package sets would you like to install?"
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    echo "Which package sets would you like to uninstall?"
+  else
+    echo "Which package sets would you like to install?"
+  fi
   SELECTIONS=$(run_gum choose \
     --no-limit \
     --selected "*" \
