@@ -3,6 +3,11 @@ GUM="$BIN_DIR/gum"
 
 mkdir -p "$BIN_DIR"
 
+# Drain any stale input from the TTY buffer
+_drain_input() {
+  while read -t 0.1 -r _ 2>/dev/null; do :; done || true
+}
+
 install_gum() {
   if [[ -x "$GUM" ]]; then
     echo "gum already installed"
@@ -53,4 +58,9 @@ install_gum() {
 
   echo "Installed gum:"
   "$GUM" --version
+}
+
+run_gum() {
+  _drain_input
+  "$GUM" "$@"
 }

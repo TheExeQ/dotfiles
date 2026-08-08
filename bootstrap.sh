@@ -21,7 +21,6 @@ source "./lib/nix.sh"
 source "./lib/brew.sh"
 
 _setup_pkg_manager() {
-
   # Verifies that the user has nix installed.
   setup_nix
 
@@ -31,18 +30,15 @@ _setup_pkg_manager() {
 
     setup_nix_darwin
   fi
-
 }
 
 _stow_selections() {
-
   local selections="$1"
   shift
 
   while IFS= read -r selection; do
     stow_pkg "$selection" "$@"
   done <<<"$selections"
-
 }
 
 _setup_dotfiles() {
@@ -52,8 +48,9 @@ _setup_dotfiles() {
 
   echo "Which packages do you want to stow?"
   local selections=$(
-    "$GUM" choose \
+    run_gum choose \
       --no-limit \
+      --selected "*" \
       "Shared" \
       "$OS"
   )
@@ -62,13 +59,12 @@ _setup_dotfiles() {
   echo "Stowing to $TARGET_DIR"
   _stow_selections "$selections" -n -v $UNINSTALL
 
-  if "$GUM" confirm "The following actions will be performed do you accept these changes?"; then
+  if run_gum confirm "The following actions will be performed do you accept these changes?"; then
     _stow_selections "$selections" -v $UNINSTALL
     echo "Stow succeeded"
   else
     echo "Stow aborted"
   fi
-
 }
 
 bootstrap_parse_args "$@"
@@ -78,14 +74,15 @@ install_gum
 
 clear
 
-"$GUM" style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
+run_gum style --foreground 212 --border-foreground 212 --border double --align center --width 50 --margin "1 2" --padding "2 4" \
   "Welcome to Samuel's dotfiles!"
 
 echo "Which jobs would you like the bootstrapper to perform?"
 selections=$(
-  "$GUM" choose \
+  run_gum choose \
     --no-limit \
     --label-delimiter "#" \
+    --selected "*" \
     "Setup package manager (requires nix)#pkg_manager" \
     "Setup dotfiles#dotfiles"
 )

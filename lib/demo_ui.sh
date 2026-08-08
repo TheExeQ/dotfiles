@@ -9,7 +9,7 @@ demo_ui() {
 
   echo "Multi-select:"
   selections=$(
-    "$GUM" choose \
+    run_gum choose \
       --no-limit \
       "Install Homebrew" \
       "Install Fish Shell" \
@@ -24,7 +24,7 @@ demo_ui() {
   echo
   echo "Single selection:"
   profile=$(
-    "$GUM" choose \
+    run_gum choose \
       "Minimal" \
       "Developer" \
       "Full Setup"
@@ -35,28 +35,28 @@ demo_ui() {
   echo
   echo "Text input:"
   username=$(
-    "$GUM" input \
+    run_gum input \
       --placeholder "Your name"
   )
 
   echo "Username: $username"
 
   echo
-  if "$GUM" confirm "Continue?"; then
+  if run_gum confirm "Continue?"; then
     echo "Continuing..."
   else
     echo "Cancelled"
   fi
 
   echo
-  "$GUM" spin \
+  run_gum spin \
     --spinner dot \
     --title "Running fake installation..." \
     -- sleep 3
 
   echo
 
-  "$GUM" style \
+  run_gum style \
     --foreground 212 \
     --border double \
     --padding "1 3" \
