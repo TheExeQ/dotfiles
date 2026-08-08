@@ -59,6 +59,11 @@ select_nix_darwin() {
     NIX_DARWIN_CHOICE="no"
     return
   fi
+
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    return
+  fi
+
   NIX_DARWIN_CHOICE=$(run_gum confirm "Do you want to enable nix-darwin?" && echo "yes" || echo "no")
 }
 
