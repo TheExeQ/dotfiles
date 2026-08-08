@@ -1,3 +1,10 @@
+_require_brew() {
+  if ! command -v brew &>/dev/null; then
+    echo "Homebrew is not installed"
+    return 1
+  fi
+}
+
 install_brew() {
   if [[ "$BREW_CHOICE" != "yes" ]]; then
     echo "Skipping homebrew installation"
@@ -15,9 +22,7 @@ install_brew() {
 }
 
 setup_brew() {
-  if ! command -v brew &>/dev/null; then
-    return
-  fi
+  _require_brew || return
 
   if [[ -x "/opt/homebrew/bin/brew" ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"

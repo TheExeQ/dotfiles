@@ -1,10 +1,17 @@
+_require_nix() {
+  if ! command -v nix &>/dev/null; then
+    echo "Nix is not installed"
+    return 1
+  fi
+}
+
 install_nix() {
   if [[ "$NIX_CHOICE" != "yes" ]]; then
     echo "Skipping nix installation"
     return
   fi
 
-  if command -v nix &>/dev/null; then
+  if command -v nix &>/dev/null || [[ -d "/nix/store" ]]; then
     echo "Nix already installed"
     return
   fi
@@ -21,10 +28,7 @@ install_nix() {
 setup_nix() {
   NIX_FLAGS=()
 
-  if ! command -v nix &>/dev/null; then
-    echo "Nix is not installed"
-    return
-  fi
+  _require_nix || return
 
   local experimental_features
   experimental_features=$(nix show-config 2>/dev/null | grep "^experimental-features" | awk -F' = ' '{print $2}' || true)
@@ -40,6 +44,9 @@ setup_nix_darwin() {
   if [[ "$NIX_DARWIN_CHOICE" != "yes" ]]; then
     return
   fi
+
+  _require_nix || return
+  _require_brew || return
 
   if ((${#NIX_FLAGS[@]} > 0)); then
     echo "Required Nix experimental features are not enabled in the Nix config; using command-line flags."
