@@ -107,13 +107,17 @@ fi
 # Phase 3: Execute silently
 clear
 
+if [[ -n "${UNINSTALL:-}" ]]; then
+  JOB_ORDER=$'dotfiles\npkg_manager'
+else
+  JOB_ORDER=$'pkg_manager\ndotfiles'
+fi
+
 while IFS= read -r job; do
-  case "$job" in
-  pkg_manager)
-    _setup_pkg_manager
-    ;;
-  dotfiles)
-    _setup_dotfiles
-    ;;
-  esac
-done <<<"$JOBS"
+  if echo "$JOBS" | grep -q "^${job}$"; then
+    case "$job" in
+    pkg_manager) _setup_pkg_manager ;;
+    dotfiles)    _setup_dotfiles ;;
+    esac
+  fi
+done <<<"$JOB_ORDER"
