@@ -61,6 +61,7 @@ select_nix_darwin() {
   fi
 
   if [[ -n "${UNINSTALL:-}" ]]; then
+    NIX_DARWIN_CHOICE="yes"
     return
   fi
 
@@ -68,17 +69,28 @@ select_nix_darwin() {
 }
 
 show_summary() {
+  local nix_label brew_label darwin_label
+
+  if [[ -n "${UNINSTALL:-}" ]]; then
+    nix_label="Uninstall Nix"
+    brew_label="Uninstall Homebrew"
+    darwin_label="Uninstall nix-darwin"
+  else
+    nix_label="Install Nix"
+    brew_label="Install Homebrew"
+    darwin_label="Setup nix-darwin"
+  fi
+
   run_gum style --foreground 212 --border-foreground 212 --border double --align left --width 50 --margin "1 2" --padding "2 4" \
     "Summary of your choices:" \
     "" \
     "Jobs: $JOBS" \
-    "Install Nix: ${NIX_CHOICE:-no}" \
-    "Install Homebrew: ${BREW_CHOICE:-no}" \
-    "Run nix-darwin: ${NIX_DARWIN_CHOICE:-no}" \
+    "$nix_label: ${NIX_CHOICE:-no}" \
+    "$brew_label: ${BREW_CHOICE:-no}" \
+    "$darwin_label: ${NIX_DARWIN_CHOICE:-no}" \
     "Packages: ${PACKAGES:-none}" \
     "" \
-    "Note: The --uninstall flag will remove dotfiles and nix-darwin." \
-    "Nix and Homebrew must be uninstalled manually."
+    "Note: Nix and Homebrew must be uninstalled manually."
 }
 
 confirm_summary() {

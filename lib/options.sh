@@ -12,7 +12,6 @@ EOF
 }
 
 bootstrap_parse_args() {
-  DRY_RUN=""
   UNINSTALL=""
   YES=""
 
