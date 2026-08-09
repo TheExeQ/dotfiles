@@ -9,6 +9,7 @@
 
     casks = [
       "ghostty"
+      "zen"
     ];
 
     onActivation = {

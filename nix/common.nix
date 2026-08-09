@@ -38,7 +38,5 @@
 
   environment.shells = [ pkgs.fish ];
 
-  users.users.samuel.shell = pkgs.fish;
-
   nix.settings.experimental-features = "nix-command flakes";
 }
