@@ -16,7 +16,7 @@
     pkgs.fastfetch
     pkgs.python3
     pkgs.stow
-    pkgs.firefox
+    pkgs.brave
     pkgs.proton-pass-cli
     pkgs.opencode
 

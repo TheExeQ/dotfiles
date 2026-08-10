@@ -29,6 +29,7 @@
     defaults = {
       dock = {
         autohide = true;
+        show-recents = false;
         minimize-to-application = true;
         persistent-apps = [ ];
       };

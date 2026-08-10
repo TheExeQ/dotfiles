@@ -77,7 +77,7 @@ select_nix_darwin() {
     return
   fi
 
-  NIX_DARWIN_CHOICE=$(run_gum confirm "Do you want to enable nix-darwin?" && echo "yes" || echo "no")
+  NIX_DARWIN_CHOICE=$(run_gum confirm "Do you want to run nix-darwin?" && echo "yes" || echo "no")
 }
 
 show_summary() {
