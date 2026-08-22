@@ -5,6 +5,16 @@ _require_nix() {
   fi
 }
 
+_backup_etc_files() {
+  local files=("/etc/bashrc" "/etc/zshrc" "/etc/zprofile" "/etc/zshenv" "/etc/bash.bashrc" "/etc/nix/nix.conf")
+  for file in "${files[@]}"; do
+    if [[ -f "$file" && ! -L "$file" ]]; then
+      sudo mv "$file" "$file.before-nix-darwin"
+      echo "Backed up $file -> $file.before-nix-darwin"
+    fi
+  done
+}
+
 install_nix() {
   if [[ "$NIX_CHOICE" != "yes" ]]; then
     echo "Skipping nix installation"
@@ -47,14 +57,30 @@ setup_nix() {
   NIX_FLAGS+=(--extra-experimental-features "nix-command flakes")
 }
 
-_backup_etc_files() {
-  local files=("/etc/bashrc" "/etc/zshrc" "/etc/zprofile" "/etc/zshenv" "/etc/bash.bashrc" "/etc/nix/nix.conf")
-  for file in "${files[@]}"; do
-    if [[ -f "$file" && ! -L "$file" ]]; then
-      sudo mv "$file" "$file.before-nix-darwin"
-      echo "Backed up $file -> $file.before-nix-darwin"
-    fi
-  done
+setup_nix_home_manager() {
+  if [[ "$NIX_HM_CHOICE" != "yes" ]]; then
+    return
+  fi
+
+  _require_nix || return
+
+  if ((${#NIX_FLAGS[@]} > 0)); then
+    echo "Required Nix experimental features are not enabled in the Nix config; using command-line flags."
+  fi
+
+  local NIX_COMMAND
+  local FLAKE_DIR="$DOTFILES_PATH/nix/"
+
+  if command -v home-manager &>/dev/null; then
+    NIX_COMMAND=(home-manager)
+  else
+    NIX_COMMAND=(nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run home-manager/master --)
+  fi
+
+  if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
+    "${NIX_COMMAND[@]}" switch --flake "$FLAKE_DIR#Linux"
+    export PATH="/run/current-system/sw/bin:$PATH"
+  fi
 }
 
 setup_nix_darwin() {
