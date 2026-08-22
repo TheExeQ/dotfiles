@@ -40,14 +40,15 @@ alias kgd='kubectl get deployments'
 alias kdp='kubectl describe pod'
 alias kdn='kubectl describe node'
 
-# -- Terraform --
-alias tf='terraform'
-alias tfi='terraform init'
-alias tfp='terraform plan'
-alias tfa='terraform apply'
-alias tfd='terraform destroy'
-alias tfo='terraform output'
-alias tfs='terraform show'
-alias tfv='terraform validate'
+# -- Terraform/OpenTofu --
+set tf tofu
+alias tf='$tf'
+alias tfi='$tf init'
+alias tfp='$tf plan'
+alias tfa='$tf apply'
+alias tfd='$tf destroy'
+alias tfo='$tf output'
+alias tfs='$tf show'
+alias tfv='$tf validate'
 
 fastfetch

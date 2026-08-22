@@ -10,6 +10,9 @@
     casks = [
       "ghostty"
       "zen"
+      "brave-browser"
+      "obsidian"
+      "spotify"
     ];
 
     onActivation = {
