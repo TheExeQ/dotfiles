@@ -18,7 +18,6 @@
     {
       darwinConfigurations."MBP" = nix-darwin.lib.darwinSystem {
         modules = [
-          ./common.nix
           ./darwin.nix
         ];
       };
