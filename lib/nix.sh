@@ -43,8 +43,6 @@ install_nix() {
 }
 
 setup_nix() {
-  NIX_FLAGS=()
-
   _require_nix || return
 
   local experimental_features
@@ -54,7 +52,10 @@ setup_nix() {
     return
   fi
 
-  NIX_FLAGS+=(--extra-experimental-features "nix-command flakes")
+  local nix_conf="$HOME/.config/nix/nix.conf"
+  mkdir -p "$(dirname "$nix_conf")"
+  echo "experimental-features = nix-command flakes" >>"$nix_conf"
+  echo "Enabled nix-command and flakes in $nix_conf"
 }
 
 setup_nix_home_manager() {
@@ -64,17 +65,13 @@ setup_nix_home_manager() {
 
   _require_nix || return
 
-  if ((${#NIX_FLAGS[@]} > 0)); then
-    echo "Required Nix experimental features are not enabled in the Nix config; using command-line flags."
-  fi
-
   local NIX_COMMAND
   local FLAKE_DIR="$DOTFILES_PATH/nix/"
 
   if command -v home-manager &>/dev/null; then
     NIX_COMMAND=(home-manager)
   else
-    NIX_COMMAND=(nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run home-manager/master --)
+    NIX_COMMAND=(nix run home-manager/master --)
   fi
 
   if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
@@ -91,17 +88,13 @@ setup_nix_darwin() {
   _require_nix || return
   _require_brew || return
 
-  if ((${#NIX_FLAGS[@]} > 0)); then
-    echo "Required Nix experimental features are not enabled in the Nix config; using command-line flags."
-  fi
-
   local NIX_COMMAND
   local FLAKE_DIR="$DOTFILES_PATH/nix/"
 
   if command -v darwin-rebuild &>/dev/null; then
     NIX_COMMAND=(darwin-rebuild)
   else
-    NIX_COMMAND=(nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run nix-darwin/master#darwin-rebuild --)
+    NIX_COMMAND=(nix run nix-darwin/master#darwin-rebuild --)
   fi
 
   if [[ -f "$FLAKE_DIR/flake.nix" ]]; then
@@ -124,6 +117,6 @@ uninstall_nix_darwin() {
   if command -v darwin-uninstaller &>/dev/null; then
     sudo darwin-uninstaller
   else
-    sudo nix ${NIX_FLAGS[@]+"${NIX_FLAGS[@]}"} run nix-darwin#darwin-uninstaller
+    sudo nix run nix-darwin#darwin-uninstaller
   fi
 }
